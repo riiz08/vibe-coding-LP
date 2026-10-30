@@ -1,0 +1,542 @@
+---
+interface NavItem {
+  label: string;
+  href: string;
+}
+
+const navItems: NavItem[] = [
+  { label: "Beranda", href: "#" },
+  { label: "Fitur", href: "#fitur" },
+  { label: "Harga", href: "#harga" },
+  { label: "Tentang", href: "#tentang" },
+  { label: "Kontak", href: "#kontak" },
+];
+---
+
+<header class="navbar-header">
+  <div class="navbar-container">
+    <!-- Brand / Logo -->
+    <a href="#" class="brand-logo" aria-label="Beranda VibeCoding">
+      <span class="logo-badge">⚡</span>
+      <span class="brand-text">Vibe<span class="text-accent">Coding</span></span>
+    </a>
+
+    <!-- Desktop Navigation Links -->
+    <nav class="desktop-nav" aria-label="Navigasi Utama">
+      <ul class="nav-list">
+        {
+          navItems.map((item) => (
+            <li>
+              <a href={item.href} class="nav-link">
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <!-- Desktop Actions (Theme Toggle & CTA) -->
+    <div class="desktop-actions">
+      <!-- Theme Toggle Button -->
+      <button
+        type="button"
+        id="theme-toggle"
+        class="theme-toggle-btn"
+        aria-label="Ganti mode gelap/terang"
+        title="Ganti Tema"
+      >
+        <!-- Sun icon (for dark mode) -->
+        <svg
+          class="sun-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <!-- Moon icon (for light mode) -->
+        <svg
+          class="moon-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+
+      <!-- CTA Button -->
+      <a href="#mulai" class="btn-primary">
+        Mulai Sekarang
+      </a>
+    </div>
+
+    <!-- Mobile Menu Button (Hamburger) -->
+    <div class="mobile-controls">
+      <button
+        type="button"
+        id="mobile-theme-toggle"
+        class="theme-toggle-btn mobile-only"
+        aria-label="Ganti mode gelap/terang"
+      >
+        <svg
+          class="sun-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+        </svg>
+        <svg
+          class="moon-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+
+      <button
+        type="button"
+        id="hamburger-btn"
+        class="hamburger-btn"
+        aria-label="Buka menu navigasi"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <span class="bar top-bar"></span>
+        <span class="bar mid-bar"></span>
+        <span class="bar bot-bar"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Collapsible Menu -->
+  <div id="mobile-menu" class="mobile-menu" aria-hidden="true">
+    <nav class="mobile-nav" aria-label="Navigasi Mobile">
+      <ul class="mobile-nav-list">
+        {
+          navItems.map((item) => (
+            <li>
+              <a href={item.href} class="mobile-nav-link">
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="mobile-cta-wrapper">
+        <a href="#mulai" class="btn-primary btn-full">
+          Mulai Sekarang
+        </a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script>
+  // Theme Toggle Implementation
+  function initTheme() {
+    const themeButtons = [
+      document.getElementById("theme-toggle"),
+      document.getElementById("mobile-theme-toggle"),
+    ];
+
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.contains("dark");
+      if (isDark) {
+        document.documentElement.classList.remove("dark");
+        localStorage.setItem("theme", "light");
+      } else {
+        document.documentElement.classList.add("dark");
+        localStorage.setItem("theme", "dark");
+      }
+    }
+
+    themeButtons.forEach((btn) => {
+      btn?.addEventListener("click", toggleTheme);
+    });
+  }
+
+  // Mobile Menu Implementation
+  function initMobileMenu() {
+    const hamburgerBtn = document.getElementById("hamburger-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const mobileLinks = document.querySelectorAll(".mobile-nav-link, .mobile-cta-wrapper a");
+
+    function toggleMenu() {
+      const isOpen = hamburgerBtn?.getAttribute("aria-expanded") === "true";
+      hamburgerBtn?.setAttribute("aria-expanded", String(!isOpen));
+      hamburgerBtn?.classList.toggle("open", !isOpen);
+      mobileMenu?.classList.toggle("open", !isOpen);
+      mobileMenu?.setAttribute("aria-hidden", String(isOpen));
+      document.body.classList.toggle("menu-open", !isOpen);
+    }
+
+    function closeMenu() {
+      hamburgerBtn?.setAttribute("aria-expanded", "false");
+      hamburgerBtn?.classList.remove("open");
+      mobileMenu?.classList.remove("open");
+      mobileMenu?.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("menu-open");
+    }
+
+    hamburgerBtn?.addEventListener("click", toggleMenu);
+
+    mobileLinks.forEach((link) => {
+      link.addEventListener("click", closeMenu);
+    });
+
+    // Close on resize to desktop
+    window.addEventListener("resize", () => {
+      if (window.innerWidth >= 768) {
+        closeMenu();
+      }
+    });
+  }
+
+  // Run initializers
+  initTheme();
+  initMobileMenu();
+
+  // Re-run if Astro view transitions are used
+  document.addEventListener("astro:after-swap", () => {
+    initTheme();
+    initMobileMenu();
+  });
+</script>
+
+<style>
+  /* Header & Sticky Styling */
+  .navbar-header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 50;
+    background: var(--nav-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--nav-border);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.85rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  /* Brand Logo */
+  .brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    transition: transform 0.2s ease;
+  }
+
+  .brand-logo:hover {
+    transform: translateY(-1px);
+  }
+
+  .logo-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    border-radius: 8px;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+  }
+
+  .brand-text {
+    letter-spacing: -0.02em;
+  }
+
+  .text-accent {
+    background: linear-gradient(135deg, #3b82f6, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Desktop Nav */
+  .desktop-nav {
+    display: none;
+  }
+
+  .nav-list {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-link {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    position: relative;
+    padding: 0.25rem 0;
+  }
+
+  .nav-link:hover {
+    color: var(--text-primary);
+  }
+
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #3b82f6;
+    border-radius: 2px;
+    transition: width 0.2s ease;
+  }
+
+  .nav-link:hover::after {
+    width: 100%;
+  }
+
+  /* Actions */
+  .desktop-actions {
+    display: none;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  /* Theme Toggle Button */
+  .theme-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    background: var(--btn-secondary-bg);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .theme-toggle-btn:hover {
+    background: var(--btn-secondary-hover);
+    border-color: var(--border-hover);
+    transform: rotate(15deg);
+  }
+
+  /* Sun & Moon display based on .dark */
+  :global(html.dark) .sun-icon {
+    display: block;
+  }
+  :global(html.dark) .moon-icon {
+    display: none;
+  }
+  :global(html:not(.dark)) .sun-icon {
+    display: none;
+  }
+  :global(html:not(.dark)) .moon-icon {
+    display: block;
+  }
+
+  /* Buttons */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.55rem 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: linear-gradient(135deg, #3b82f6, #6366f1);
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45);
+    background: linear-gradient(135deg, #2563eb, #4f46e5);
+  }
+
+  .btn-full {
+    width: 100%;
+    padding: 0.8rem 1.25rem;
+  }
+
+  /* Mobile Controls */
+  .mobile-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .mobile-only {
+    display: inline-flex;
+  }
+
+  /* Hamburger Button */
+  .hamburger-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    background: var(--btn-secondary-bg);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .hamburger-btn:hover {
+    background: var(--btn-secondary-hover);
+  }
+
+  .bar {
+    width: 100%;
+    height: 2px;
+    background-color: var(--text-primary);
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  /* Hamburger animated X */
+  .hamburger-btn.open .top-bar {
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  .hamburger-btn.open .mid-bar {
+    opacity: 0;
+  }
+
+  .hamburger-btn.open .bot-bar {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  /* Mobile Menu Drawer */
+  .mobile-menu {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    background: var(--nav-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--nav-border);
+    transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+  }
+
+  .mobile-menu.open {
+    max-height: 400px;
+    opacity: 1;
+  }
+
+  .mobile-nav {
+    padding: 1rem 1.5rem 1.5rem;
+  }
+
+  .mobile-nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .mobile-nav-link {
+    display: block;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+  }
+
+  .mobile-nav-link:hover {
+    color: var(--text-primary);
+    background: var(--btn-secondary-bg);
+  }
+
+  .mobile-cta-wrapper {
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  /* Media Queries for Desktop View */
+  @media (min-width: 768px) {
+    .desktop-nav {
+      display: flex;
+    }
+
+    .desktop-actions {
+      display: flex;
+    }
+
+    .mobile-controls {
+      display: none;
+    }
+
+    .mobile-menu {
+      display: none;
+    }
+  }
+</style>
+
